@@ -6,6 +6,7 @@ module.exports = {
     "node": true
   },
   "rules": {
+    "no-console": 0,
     "prettier/prettier": [
       "error", 
       { 
