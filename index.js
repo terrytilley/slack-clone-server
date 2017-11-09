@@ -1,4 +1,5 @@
 import path from 'path';
+import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import { graphqlExpress, graphiqlExpress } from 'apollo-server-express';
@@ -20,6 +21,7 @@ const PORT = process.env.PORT || 8000;
 const app = express();
 const graphqlEndpoint = '/graphql';
 
+app.use(cors('*'));
 app.use(
   graphqlEndpoint,
   bodyParser.json(),
