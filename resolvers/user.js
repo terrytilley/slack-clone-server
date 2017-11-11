@@ -1,4 +1,12 @@
+import _ from 'lodash';
 import bcrypt from 'bcrypt';
+
+const formatErrors = (e, models) => {
+  if (e instanceof models.sequelize.ValidationError) {
+    return e.errors.map(x => _.pick(x, ['path', 'message']));
+  }
+  return [{ path: 'name', message: 'something went wrong' }];
+};
 
 export default {
   Query: {
@@ -10,10 +18,19 @@ export default {
     register: async (parent, { password, ...otherArgs }, { models }) => {
       try {
         const hashedPassword = await bcrypt.hash(password, 12);
-        await models.User.create({ password: hashedPassword, ...otherArgs });
-        return true;
+        const user = await models.User.create({
+          password: hashedPassword,
+          ...otherArgs,
+        });
+        return {
+          ok: true,
+          user,
+        };
       } catch (err) {
-        return false;
+        return {
+          ok: false,
+          errors: formatErrors(err, models),
+        };
       }
     },
   },
