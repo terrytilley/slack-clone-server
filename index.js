@@ -7,6 +7,8 @@ import { makeExecutableSchema } from 'graphql-tools';
 import { fileLoader, mergeTypes, mergeResolvers } from 'merge-graphql-schemas';
 import models from './models';
 
+const SECRET = '`sfdgh4kjghfdse22sfghtgytfcesdz38';
+const SECRET2 = '`njkbhgvfcxvbfg34vnbvcfxfd73cgbv1';
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './schema')));
 const resolvers = mergeResolvers(
   fileLoader(path.join(__dirname, './resolvers'), { extensions: ['.js'] })
@@ -32,6 +34,8 @@ app.use(
       user: {
         id: 1,
       },
+      SECRET,
+      SECRET2,
     },
   })
 );
